@@ -1040,14 +1040,6 @@ static void do_unionfind_line2(unionfind_t *uf, image_u8_t *im, int h, int w, in
 }
 #undef DO_UNIONFIND2
 
-static void do_unionfind_task2(struct unionfind_task *p)
-{
-    struct unionfind_task *task = (struct unionfind_task*) p;
-
-    for (int y = task->y0; y < task->y1; y++) {
-        do_unionfind_line2(task->uf, task->im, task->h, task->w, task->s, y);
-    }
-}
 
 static void do_quad_task(struct quad_task *task)
 {
