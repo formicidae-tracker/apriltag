@@ -341,7 +341,6 @@ apriltag_detector_t *apriltag_detector_create()
 {
     apriltag_detector_t *td = (apriltag_detector_t*) calloc(1, sizeof(apriltag_detector_t));
 
-    td->nthreads = 1;
     td->quad_decimate = 2.0;
     td->quad_sigma = 0.0;
 
@@ -354,8 +353,6 @@ apriltag_detector_t *apriltag_detector_create()
     td->qtp.min_white_black_diff = 5;
 
     td->tag_families = zarray_create(sizeof(apriltag_family_t*));
-
-    pthread_mutex_init(&td->mutex, NULL);
 
     td->tp = timeprofile_create();
 
@@ -374,7 +371,6 @@ apriltag_detector_t *apriltag_detector_create()
 void apriltag_detector_destroy(apriltag_detector_t *td)
 {
     timeprofile_destroy(td->tp);
-    workerpool_destroy(td->wp);
 
     apriltag_detector_clear_families(td);
 
@@ -857,9 +853,8 @@ static void refine_edges(apriltag_detector_t *td, image_u8_t *im_orig, struct qu
     }
 }
 
-static void quad_decode_task(void *_u)
+static void quad_decode_task(struct quad_decode_task *task)
 {
-    struct quad_decode_task *task = (struct quad_decode_task*) _u;
     apriltag_detector_t *td = task->td;
     image_u8_t *im = task->im;
 
@@ -935,9 +930,7 @@ static void quad_decode_task(void *_u)
                     det->p[i][1] = p[1];
                 }
 
-                pthread_mutex_lock(&td->mutex);
                 zarray_add(task->detections, &det);
-                pthread_mutex_unlock(&td->mutex);
             }
 
             quad_destroy(quad);
@@ -974,11 +967,6 @@ zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
         zarray_t *s = zarray_create(sizeof(apriltag_detection_t*));
         printf("apriltag.c: No tag families enabled.");
         return s;
-    }
-
-    if (td->wp == NULL || td->nthreads != workerpool_get_nthreads(td->wp)) {
-        workerpool_destroy(td->wp);
-        td->wp = workerpool_create(td->nthreads);
     }
 
     timeprofile_clear(td->tp);
@@ -1103,26 +1091,19 @@ zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
     if (1) {
         image_u8_t *im_samples = td->debug ? image_u8_copy(im_orig) : NULL;
 
-        int chunksize = 1 + zarray_size(quads) / (APRILTAG_TASKS_PER_THREAD_TARGET * td->nthreads);
+        struct quad_decode_task task;
 
-        struct quad_decode_task tasks[zarray_size(quads) / chunksize + 1];
+        task.i0 = 0;
+        task.i1 = zarray_size(quads);
+        task.quads = quads;
+        task.td = td;
+        task.im = im_orig;
+        task.detections = detections;
 
-        int ntasks = 0;
-        for (int i = 0; i < zarray_size(quads); i+= chunksize) {
-            tasks[ntasks].i0 = i;
-            tasks[ntasks].i1 = imin(zarray_size(quads), i + chunksize);
-            tasks[ntasks].quads = quads;
-            tasks[ntasks].td = td;
-            tasks[ntasks].im = im_orig;
-            tasks[ntasks].detections = detections;
+        task.im_samples = im_samples;
 
-            tasks[ntasks].im_samples = im_samples;
 
-            workerpool_add_task(td->wp, quad_decode_task, &tasks[ntasks]);
-            ntasks++;
-        }
-
-        workerpool_run(td->wp);
+        quad_decode_task(&task);
 
         if (im_samples != NULL) {
             image_u8_write_pnm(im_samples, "debug_samples.pnm");
