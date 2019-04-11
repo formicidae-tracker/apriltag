@@ -474,9 +474,9 @@ int quad_segment_agg(apriltag_detector_t *td, zarray_t *cluster, struct line_fit
     int rvalloc_pos = 0;
     int rvalloc_size = 3*sz;
     struct remove_vertex *rvalloc = calloc(rvalloc_size, sizeof(struct remove_vertex));
-
+    assert(rvalloc != 0);
     struct segment *segs = calloc(sz, sizeof(struct segment));
-
+    assert(segs != 0);
     // populate with initial entries
     for (int i = 0; i < sz; i++) {
         struct remove_vertex *rv = &rvalloc[rvalloc_pos++];
@@ -575,7 +575,7 @@ int quad_segment_agg(apriltag_detector_t *td, zarray_t *cluster, struct line_fit
  */
 struct line_fit_pt* compute_lfps(int sz, zarray_t* cluster, image_u8_t* im) {
     struct line_fit_pt *lfps = calloc(sz, sizeof(struct line_fit_pt));
-
+    assert(lfps != 0);
     for (int i = 0; i < sz; i++) {
         struct pt *p;
         zarray_get_volatile(cluster, i, &p);
@@ -681,6 +681,7 @@ static inline void ptsort(struct pt *pts, int sz)
     if (stacksz == 0) {
         // it was too big, malloc it instead.
         tmp = malloc(sizeof(struct pt) * sz);
+        assert(tmp != 0);
     }
 
     memcpy(tmp, pts, sizeof(struct pt) * sz);
@@ -1039,7 +1040,7 @@ static void do_unionfind_line2(unionfind_t *uf, image_u8_t *im, int h, int w, in
 }
 #undef DO_UNIONFIND2
 
-static void do_unionfind_task2(void *p)
+static void do_unionfind_task2(struct unionfind_task *p)
 {
     struct unionfind_task *task = (struct unionfind_task*) p;
 
@@ -1124,7 +1125,8 @@ image_u8_t *threshold(apriltag_detector_t *td, image_u8_t *im)
 
     uint8_t *im_max = calloc(tw*th, sizeof(uint8_t));
     uint8_t *im_min = calloc(tw*th, sizeof(uint8_t));
-
+    assert(im_max != 0);
+    assert(im_min != 0);
     // first, collect min/max statistics for each tile
     for (int ty = 0; ty < th; ty++) {
         for (int tx = 0; tx < tw; tx++) {
@@ -1153,7 +1155,8 @@ image_u8_t *threshold(apriltag_detector_t *td, image_u8_t *im)
     if (1) {
         uint8_t *im_max_tmp = calloc(tw*th, sizeof(uint8_t));
         uint8_t *im_min_tmp = calloc(tw*th, sizeof(uint8_t));
-
+        assert(im_max_tmp != 0);
+        assert(im_min_tmp != 0);
         for (int ty = 0; ty < th; ty++) {
             for (int tx = 0; tx < tw; tx++) {
                 uint8_t max = 0, min = 255;
@@ -1327,6 +1330,8 @@ image_u8_t *threshold_bayer(apriltag_detector_t *td, image_u8_t *im)
     for (int i = 0; i < 4; i++) {
         im_max[i] = calloc(tw*th, sizeof(uint8_t));
         im_min[i] = calloc(tw*th, sizeof(uint8_t));
+        assert(im_max[i] != 0);
+        assert(im_min[i] != 0);
     }
 
     for (int ty = 0; ty < th; ty++) {
@@ -1439,13 +1444,13 @@ unionfind_t* connected_components(apriltag_detector_t *td, image_u8_t* threshim,
 
 zarray_t* do_gradient_clusters(image_u8_t* threshim, int ts, int y0, int y1, int w, int nclustermap, unionfind_t* uf, zarray_t* clusters) {
     struct uint64_zarray_entry **clustermap = calloc(nclustermap, sizeof(struct uint64_zarray_entry*));
-
+    assert(clustermap != 0);
     int mem_chunk_size = 2048;
     struct uint64_zarray_entry* mem_pools[2*nclustermap/mem_chunk_size];
     int mem_pool_idx = 0;
     int mem_pool_loc = 0;
     mem_pools[mem_pool_idx] = calloc(mem_chunk_size, sizeof(struct uint64_zarray_entry));
-
+    assert(mem_pools[mem_pool_idx] != 0);
     for (int y = y0; y < y1; y++) {
         for (int x = 1; x < w-1; x++) {
 
@@ -1504,6 +1509,7 @@ zarray_t* do_gradient_clusters(image_u8_t* threshim, int ts, int y0, int y1, int
                                 mem_pool_loc = 0;                           \
                                 mem_pool_idx++;                             \
                                 mem_pools[mem_pool_idx] = calloc(mem_chunk_size, sizeof(struct uint64_zarray_entry)); \
+                                assert(mem_pools[mem_pool_idx] != 0);       \
                             }                                               \
                             entry = mem_pools[mem_pool_idx] + mem_pool_loc; \
                             mem_pool_loc++;                                 \

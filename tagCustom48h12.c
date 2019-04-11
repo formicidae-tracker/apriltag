@@ -31,10 +31,12 @@ either expressed or implied, of the Regents of The University of Michigan.
 apriltag_family_t __attribute__((optimize("O0"))) *tagCustom48h12_create()
 {
    apriltag_family_t *tf = calloc(1, sizeof(apriltag_family_t));
+   assert(tf != 0);
    tf->name = strdup("tagCustom48h12");
    tf->h = 12;
    tf->ncodes = 42211;
    tf->codes = calloc(42211, sizeof(uint64_t));
+   assert(tf->codes != 0);
    tf->codes[0] = 0x0000d6c8ae76dff0UL;
    tf->codes[1] = 0x0000d6c8e905e5b5UL;
    tf->codes[2] = 0x0000d6c92394eb7aUL;
@@ -42249,6 +42251,8 @@ apriltag_family_t __attribute__((optimize("O0"))) *tagCustom48h12_create()
    tf->nbits = 48;
    tf->bit_x = calloc(48, sizeof(uint32_t));
    tf->bit_y = calloc(48, sizeof(uint32_t));
+   assert(tf->bit_x != 0);
+   assert(tf->bit_y != 0);
    tf->bit_x[0] = -2;
    tf->bit_y[0] = -2;
    tf->bit_x[1] = -1;

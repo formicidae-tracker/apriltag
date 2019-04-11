@@ -42,11 +42,13 @@ either expressed or implied, of the Regents of The University of Michigan.
 image_u8_t *image_u8_create_stride(unsigned int width, unsigned int height, unsigned int stride)
 {
     uint8_t *buf = calloc(height*stride, sizeof(uint8_t));
+    assert(buf != 0);
 
     // const initializer
     image_u8_t tmp = { .width = width, .height = height, .stride = stride, .buf = buf };
 
     image_u8_t *im = calloc(1, sizeof(image_u8_t));
+    assert(im != 0);
     memcpy(im, &tmp, sizeof(image_u8_t));
     return im;
 }
@@ -69,12 +71,14 @@ image_u8_t *image_u8_create_alignment(unsigned int width, unsigned int height, u
 image_u8_t *image_u8_copy(const image_u8_t *in)
 {
     uint8_t *buf = malloc(in->height*in->stride*sizeof(uint8_t));
+    assert(buf != 0);
     memcpy(buf, in->buf, in->height*in->stride*sizeof(uint8_t));
 
     // const initializer
     image_u8_t tmp = { .width = in->width, .height = in->height, .stride = in->stride, .buf = buf };
 
     image_u8_t *copy = calloc(1, sizeof(image_u8_t));
+    assert(copy != 0);
     memcpy(copy, &tmp, sizeof(image_u8_t));
     return copy;
 }

@@ -42,7 +42,7 @@ either expressed or implied, of the Regents of The University of Michigan.
    tf->h = 7; // not sure.
    tf->ncodes = 512;
    tf->codes = calloc(512, sizeof(uint64_t));
-
+   assert(tf->codes != 0);
    tf->codes[0] = 0x00000006fd8381c9UL;
    tf->codes[1] = 0x00000006dc8185c9UL;
    tf->codes[2] = 0x00000006bd9281c1UL;
@@ -560,6 +560,9 @@ either expressed or implied, of the Regents of The University of Michigan.
 
    tf->bit_x = calloc(36, sizeof(uint32_t));
    tf->bit_y = calloc(36, sizeof(uint32_t));
+
+   assert(tf->bit_x != 0);
+   assert(tf->bit_y != 0);
 
    tf->bit_x[0] = 1;
    tf->bit_y[0] = 1;

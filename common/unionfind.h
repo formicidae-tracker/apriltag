@@ -29,6 +29,7 @@ either expressed or implied, of the Regents of The University of Michigan.
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <assert.h>
 
 typedef struct unionfind unionfind_t;
 
@@ -52,8 +53,10 @@ struct ufrec
 static inline unionfind_t *unionfind_create(uint32_t maxid)
 {
     unionfind_t *uf = (unionfind_t*) calloc(1, sizeof(unionfind_t));
+    assert(uf != 0);
     uf->maxid = maxid;
     uf->data = (struct ufrec*) malloc((maxid+1) * sizeof(struct ufrec));
+    assert(uf->data != 0);
     for (int i = 0; i <= maxid; i++) {
         uf->data[i].size = 1;
         uf->data[i].parent = i;

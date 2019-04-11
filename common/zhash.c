@@ -75,6 +75,7 @@ zhash_t *zhash_create_capacity(size_t keysz, size_t valuesz,
     }
 
     zhash_t *zh = (zhash_t*) calloc(1, sizeof(zhash_t));
+    assert(zh != 0);
     zh->keysz = keysz;
     zh->valuesz = valuesz;
     zh->hash = hash;
@@ -84,6 +85,7 @@ zhash_t *zhash_create_capacity(size_t keysz, size_t valuesz,
     zh->entrysz = 1 + zh->keysz + zh->valuesz;
 
     zh->entries = calloc(zh->nentries, zh->entrysz);
+    assert(zh->entries != 0);
     zh->nentries = nentries;
 
     return zh;

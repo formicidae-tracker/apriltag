@@ -41,6 +41,7 @@ pam_t *pam_create_from_file(const char *inpath)
     }
 
     pam_t *pam = calloc(1, sizeof(pam_t));
+    assert(pam != 0);
     pam->width = -1;
     pam->height = -1;
     pam->depth = -1;
@@ -141,6 +142,7 @@ pam_t *pam_create_from_file(const char *inpath)
 
     pam->datalen = pam->width * pam->height * pam->depth;
     pam->data = malloc(pam->datalen);
+    assert(pam->data != 0);
     if (pam->datalen != fread(pam->data, 1, pam->datalen, infile)) {
         printf("pam.c: couldn't read body\n");
         goto fail;
@@ -204,6 +206,7 @@ void pam_destroy(pam_t *pam)
 pam_t *pam_copy(pam_t *pam)
 {
     pam_t *copy = calloc(1, sizeof(pam_t));
+    assert(copy != 0);
     copy->width = pam->width;
     copy->height = pam->height;
     copy->depth = pam->depth;
@@ -212,6 +215,7 @@ pam_t *pam_copy(pam_t *pam)
 
     copy->datalen = pam->datalen;
     copy->data = malloc(pam->datalen);
+    assert(copy->data != 0);
     memcpy(copy->data, pam->data, pam->datalen);
 
     return copy;
@@ -229,6 +233,7 @@ pam_t *pam_convert(pam_t *in, int type)
     int h = in->height;
 
     pam_t *out = calloc(1, sizeof(pam_t));
+    assert(out != 0);
     out->type = type;
     out->width = w;
     out->height = h;
@@ -236,7 +241,7 @@ pam_t *pam_convert(pam_t *in, int type)
     out->depth = 4;
     out->datalen = 4 * w * h;
     out->data = malloc(out->datalen);
-
+    assert(out->data != 0);
     if (in->type == PAM_RGB) {
         assert(in->depth == 3);
         for (int y = 0; y < h; y++) {

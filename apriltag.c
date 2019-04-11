@@ -153,6 +153,7 @@ void quad_destroy(struct quad *quad)
 struct quad *quad_copy(struct quad *quad)
 {
     struct quad *q = calloc(1, sizeof(struct quad));
+    assert(q != 0);
     memcpy(q, quad, sizeof(struct quad));
     if (quad->H)
         q->H = matd_copy(quad->H);
@@ -191,6 +192,7 @@ void quick_decode_init(apriltag_family_t *family, int maxhamming)
     assert(family->ncodes < 65536);
 
     struct quick_decode *qd = calloc(1, sizeof(struct quick_decode));
+    assert(qd != 0 );
     int capacity = family->ncodes;
 
     int nbits = family->nbits;
@@ -210,6 +212,7 @@ void quick_decode_init(apriltag_family_t *family, int maxhamming)
 //           capacity, qd->nentries * sizeof(struct quick_decode_entry) / 1024.0);
 
     qd->entries = calloc(qd->nentries, sizeof(struct quick_decode_entry));
+    assert(qd->entries != 0);
     if (qd->entries == NULL) {
         printf("apriltag.c: failed to allocate hamming decode table. Reduce max hamming size.\n");
         exit(-1);
@@ -340,7 +343,7 @@ void apriltag_detector_clear_families(apriltag_detector_t *td)
 apriltag_detector_t *apriltag_detector_create()
 {
     apriltag_detector_t *td = (apriltag_detector_t*) calloc(1, sizeof(apriltag_detector_t));
-
+    assert(td != 0);
     td->quad_decimate = 2.0;
     td->quad_sigma = 0.0;
 
@@ -891,6 +894,7 @@ static void quad_decode_task(struct quad_decode_task *task)
 
             if (decision_margin >= 0 && entry.hamming < 255) {
                 apriltag_detection_t *det = calloc(1, sizeof(apriltag_detection_t));
+                assert(det != 0);
 
                 det->family = family;
                 det->id = entry.id;

@@ -51,6 +51,7 @@ matd_t *matd_create(int rows, int cols)
         return matd_create_scalar(0);
 
     matd_t *m = calloc(1, sizeof(matd_t) + (rows*cols*sizeof(double)));
+    assert(m != 0);
     m->nrows = rows;
     m->ncols = cols;
 
@@ -60,6 +61,7 @@ matd_t *matd_create(int rows, int cols)
 matd_t *matd_create_scalar(TYPE v)
 {
     matd_t *m = calloc(1, sizeof(matd_t) + sizeof(double));
+    assert(m != 0);
     m->nrows = 0;
     m->ncols = 0;
     m->data[0] = v;
@@ -1496,6 +1498,7 @@ matd_svd_t matd_svd_flags(matd_t *A, int flags)
 matd_plu_t *matd_plu(const matd_t *a)
 {
     unsigned int *piv = calloc(a->nrows, sizeof(unsigned int));
+    assert(piv != 0);
     int pivsign = 1;
     matd_t *lu = matd_copy(a);
 
@@ -1503,6 +1506,7 @@ matd_plu_t *matd_plu(const matd_t *a)
     assert(a->nrows == a->ncols);
 
     matd_plu_t *mlu = calloc(1, sizeof(matd_plu_t));
+    assert(mlu != 0);
 
     for (int i = 0; i < a->nrows; i++)
         piv[i] = i;
@@ -1874,6 +1878,7 @@ MATD_EL(U, i, j) = 0;
     }
 
     matd_chol_t *chol = calloc(1, sizeof(matd_chol_t));
+    assert(chol != 0);
     chol->is_spd = is_spd;
     chol->u = U;
     return chol;

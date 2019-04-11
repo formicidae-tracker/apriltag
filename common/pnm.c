@@ -39,6 +39,7 @@ pnm_t *pnm_create_from_file(const char *path)
         return NULL;
 
     pnm_t *pnm = calloc(1, sizeof(pnm_t));
+    assert(pnm != 0);
     pnm->format = -1;
 
     char tmp[1024];
@@ -92,6 +93,7 @@ pnm_t *pnm_create_from_file(const char *path)
 
             pnm->buflen = pnm->height * ((pnm->width + 7)  / 8);
             pnm->buf = malloc(pnm->buflen);
+            assert(pnm->buf != 0);
             size_t len = fread(pnm->buf, 1, pnm->buflen, f);
             if (len != pnm->buflen)
                 goto error;
@@ -109,6 +111,7 @@ pnm_t *pnm_create_from_file(const char *path)
                 assert(0);
 
             pnm->buf = malloc(pnm->buflen);
+            assert(pnm->buf != 0);
             size_t len = fread(pnm->buf, 1, pnm->buflen, f);
             if (len != pnm->buflen)
                 goto error;
@@ -126,6 +129,7 @@ pnm_t *pnm_create_from_file(const char *path)
                 assert(0);
 
             pnm->buf = malloc(pnm->buflen);
+            assert(pnm->buf != 0);
             size_t len = fread(pnm->buf, 1, pnm->buflen, f);
             if (len != pnm->buflen)
                 goto error;

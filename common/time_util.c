@@ -28,6 +28,8 @@ either expressed or implied, of the Regents of The University of Michigan.
 #include <stdlib.h>
 #include <math.h>
 #include "time_util.h"
+#include <assert.h>
+
 
 struct timeutil_rest
 {
@@ -38,6 +40,7 @@ struct timeutil_rest
 timeutil_rest_t *timeutil_rest_create()
 {
     timeutil_rest_t *rest = calloc(1, sizeof(timeutil_rest_t));
+    assert(rest != 0);
     return rest;
 }
 

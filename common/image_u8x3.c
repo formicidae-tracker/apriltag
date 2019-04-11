@@ -53,11 +53,13 @@ image_u8x3_t *image_u8x3_create_alignment(unsigned int width, unsigned int heigh
         stride += alignment - (stride % alignment);
 
     uint8_t *buf = calloc(height*stride, sizeof(uint8_t));
+    assert(buf != 0);
 
     // const initializer
     image_u8x3_t tmp = { .width = width, .height = height, .stride = stride, .buf = buf };
 
     image_u8x3_t *im = calloc(1, sizeof(image_u8x3_t));
+    assert(im != 0);
     memcpy(im, &tmp, sizeof(image_u8x3_t));
     return im;
 }
@@ -65,12 +67,14 @@ image_u8x3_t *image_u8x3_create_alignment(unsigned int width, unsigned int heigh
 image_u8x3_t *image_u8x3_copy(const image_u8x3_t *in)
 {
     uint8_t *buf = malloc(in->height*in->stride*sizeof(uint8_t));
+    assert(buf != 0);
     memcpy(buf, in->buf, in->height*in->stride*sizeof(uint8_t));
 
     // const initializer
     image_u8x3_t tmp = { .width = in->width, .height = in->height, .stride = in->stride, .buf = buf };
 
     image_u8x3_t *copy = calloc(1, sizeof(image_u8x3_t));
+    assert(copy != 0);
     memcpy(copy, &tmp, sizeof(image_u8x3_t));
     return copy;
 }

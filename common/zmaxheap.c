@@ -87,6 +87,7 @@ static inline void swap_pointer(zmaxheap_t *heap, int a, int b)
 zmaxheap_t *zmaxheap_create(size_t el_sz)
 {
     zmaxheap_t *heap = calloc(1, sizeof(zmaxheap_t));
+    assert(heap != 0);
     heap->el_sz = el_sz;
 
     heap->swap = swap_default;
@@ -127,7 +128,9 @@ void zmaxheap_ensure_capacity(zmaxheap_t *heap, int capacity)
     }
 
     heap->values = realloc(heap->values, newcap * sizeof(float));
+    assert(heap->values != 0);
     heap->data = realloc(heap->data, newcap * heap->el_sz);
+    assert(heap->data != 0);
     heap->alloc = newcap;
 }
 
@@ -354,6 +357,7 @@ void zmaxheap_test()
     int cap = 10000;
     int sz = 0;
     int32_t *vals = calloc(sizeof(int32_t), cap);
+    assert(vals != 0);
 
     zmaxheap_t *heap = zmaxheap_create(sizeof(int32_t));
 

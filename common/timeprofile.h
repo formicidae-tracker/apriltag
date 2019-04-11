@@ -55,6 +55,7 @@ struct timeprofile
 static inline timeprofile_t *timeprofile_create()
 {
     timeprofile_t *tp = (timeprofile_t*) calloc(1, sizeof(timeprofile_t));
+    assert(tp != 0);
     tp->stamps = zarray_create(sizeof(struct timeprofile_entry));
 
     tp->utime = utime_now();
