@@ -91,16 +91,21 @@ static inline uint32_t unionfind_get_representative(unionfind_t *uf, uint32_t id
 // version above.
 static inline uint32_t unionfind_get_representative(unionfind_t *uf, uint32_t id)
 {
+	assert(id <= uf->maxid);
     uint32_t root = id;
 
     // chase down the root
     while (uf->data[root].parent != root) {
+	    //this is here where it could go wrong.
         root = uf->data[root].parent;
+        assert(root <= uf->maxid);
     }
 
     // go back and collapse the tree.
     while (uf->data[id].parent != root) {
+	    //and here too, especially if id is too large !!!!
         uint32_t tmp = uf->data[id].parent;
+        assert(tmp <= uf->maxid);
         uf->data[id].parent = root;
         id = tmp;
     }

@@ -982,7 +982,11 @@ int fit_quad(
     return res;
 }
 
-#define DO_UNIONFIND2(dx, dy) if (im->buf[(y + dy)*s + x + dx] == v) unionfind_connect(uf, y*w + x, (y + dy)*w + x + dx);
+#define DO_UNIONFIND2(dx, dy) do { \
+		if (im->buf[(y + dy)*s + x + dx] == v) { \
+			unionfind_connect(uf, y*w + x, (y + dy)*w + x + dx); \
+		} \
+	}while(0)
 
 static void do_unionfind_first_line(unionfind_t *uf, image_u8_t *im, int h, int w, int s)
 {
@@ -1008,6 +1012,7 @@ static void do_unionfind_line2(unionfind_t *uf, image_u8_t *im, int h, int w, in
     uint8_t v_1_m1 = im->buf[(y - 1)*s + 1];
     uint8_t v_m1_0;
     uint8_t v = im->buf[y*s];
+
 
     for (int x = 1; x < w - 1; x++) {
         v_m1_m1 = v_0_m1;
