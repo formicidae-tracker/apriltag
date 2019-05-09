@@ -1,0 +1,33 @@
+Index: apriltag/CMakeLists.txt
+===================================================================
+--- apriltag.orig/CMakeLists.txt
++++ apriltag/CMakeLists.txt
+@@ -19,7 +19,10 @@ else()
+     target_link_libraries(${PROJECT_NAME} Threads::Threads m)
+ endif()
+ 
+-set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 3 VERSION 3.0.0)
++set(APRILTAG_VERSION 3.0.0)
++set(APRILTAG_ABI_VERSION 3)
++
++set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${APRILTAG_ABI_VERSION} VERSION ${APRILTAG_VERSION})
+ 
+ include(GNUInstallDirs)
+ target_include_directories(${PROJECT_NAME} PUBLIC
+@@ -70,4 +73,3 @@ endif(OpenCV_FOUND)
+ 
+ # install example programs
+ install(TARGETS apriltag_demo RUNTIME DESTINATION bin)
+-
+Index: apriltag/apriltag.pc.in
+===================================================================
+--- apriltag.orig/apriltag.pc.in
++++ apriltag/apriltag.pc.in
+@@ -5,6 +5,6 @@ libdir=${exec_prefix}/lib
+ 
+ Name: apriltag
+ Description: AprilTag detector library
+-Version: 0.10.0
++Version: @APRILTAG_VERSION@
+ Cflags: -I${includedir}
+ Libs: -L${libdir} -lapriltag

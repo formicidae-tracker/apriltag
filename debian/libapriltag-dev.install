@@ -1,0 +1,3 @@
+usr/include/apriltag/*
+usr/lib/*/lib*.so
+usr/lib/pkgconfig/*

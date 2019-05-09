@@ -1,21 +1,21 @@
-Source: apriltags
+Source: apriltag
 Priority: optional
 Maintainer: Alexandre Tuleu <alexandre.tuleu.2005@polytechnique.org>
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), cmake (>=3.2 )
 Standards-Version: 3.9.8
 Section: libs
 Homepage: <insert the upstream URL, if relevant>
 #Vcs-Git: https://anonscm.debian.org/collab-maint/libapriltags.git
 #Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libapriltags.git
 
-Package: libapriltags-dev
+Package: libapriltag-dev
 Section: libdevel
 Architecture: any
-Depends: libapriltags3 (= ${binary:Version}), ${misc:Depends}
+Depends: libapriltag3 (= ${binary:Version}), ${misc:Depends}
 Description: <insert up to 60 chars description>
  <insert long description, indented with spaces>
 
-Package: libapriltags3
+Package: libapriltag3
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: <insert up to 60 chars description>
