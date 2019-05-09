@@ -4,19 +4,25 @@ Maintainer: Alexandre Tuleu <alexandre.tuleu.2005@polytechnique.org>
 Build-Depends: debhelper (>= 9), cmake (>=3.2 )
 Standards-Version: 3.9.8
 Section: libs
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Git: https://anonscm.debian.org/collab-maint/libapriltags.git
-#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libapriltags.git
+Homepage: https://april.eecs.umich.edu/software/apriltag
+Vcs-Git: https://github.com/AprilRobotics/apriltag.git
+
 
 Package: libapriltag-dev
 Section: libdevel
 Architecture: any
 Depends: libapriltag3 (= ${binary:Version}), ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Visual fiducial system for robotics - development files
+ AprilTag is a visual fiducial system, useful for a wide variety of
+ tasks including augmented reality, robotics, and camera calibration.
+ .
+ This package contains header and development runtime.
 
 Package: libapriltag3
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Visual fiducial system for robotics - runtime
+ AprilTag is a visual fiducial system, useful for a wide variety of
+ tasks including augmented reality, robotics, and camera calibration.
+ .
+ This package contains the C optimized runtime
