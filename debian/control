@@ -1,4 +1,4 @@
-Source: libapriltags
+Source: apriltags
 Priority: optional
 Maintainer: Alexandre Tuleu <alexandre.tuleu.2005@polytechnique.org>
 Build-Depends: debhelper (>= 9)
@@ -11,11 +11,11 @@ Homepage: <insert the upstream URL, if relevant>
 Package: libapriltags-dev
 Section: libdevel
 Architecture: any
-Depends: libapriltagsBROKEN (= ${binary:Version}), ${misc:Depends}
+Depends: libapriltags3 (= ${binary:Version}), ${misc:Depends}
 Description: <insert up to 60 chars description>
  <insert long description, indented with spaces>
 
-Package: libapriltagsBROKEN
+Package: libapriltags3
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: <insert up to 60 chars description>
