@@ -26,3 +26,12 @@ Description: Visual fiducial system for robotics - runtime
  tasks including augmented reality, robotics, and camera calibration.
  .
  This package contains the C optimized runtime
+
+Package: libapriltag-dbg
+Architecture: any
+Depends: libapriltag3(= ${binary:Version}), ${misc:Depends}
+Description: Visual fiducial system for robotics - Debug symbols
+ AprilTag is a visual fiducial system, useful for a wide variety of
+ tasks including augmented reality, robotics, and camera calibration.
+ .
+ This package contains the C debugging symbols
