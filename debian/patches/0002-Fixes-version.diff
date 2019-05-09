@@ -1,3 +1,4 @@
+Makes sures pkgconfig has the right version
 Index: apriltag/CMakeLists.txt
 ===================================================================
 --- apriltag.orig/CMakeLists.txt

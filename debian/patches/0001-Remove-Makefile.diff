@@ -1,4 +1,4 @@
-Index: apriltags/Makefile
+Make sure to use CMakeIndex: apriltags/Makefile
 ===================================================================
 --- apriltags.orig/Makefile
 +++ /dev/null
