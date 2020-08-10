@@ -11,6 +11,6 @@ shift
 for src in "$@"; do
     dest=$TARGETDIR/$src
     mkdir -p $(dirname $dest)
-    cp $src $dest
+    cp -d $src $dest
     echo $dest
 done
