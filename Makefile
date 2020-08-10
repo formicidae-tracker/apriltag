@@ -36,7 +36,7 @@ libapriltag.so: $(APRILTAG_OBJS)
 
 %.o: %.c
 	@echo "   $@"
-	@$(CC) -o $@ -c $< $(CFLAGS)
+	@$(CC) -fPIC -o $@ -c $< $(CFLAGS)
 
 .PHONY: clean
 clean:
