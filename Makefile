@@ -15,7 +15,7 @@ TARGETS := libapriltag.a libapriltag.so
 all: $(TARGETS)
 
 .PHONY: install
-install: libapriltag.so
+install: libapriltag.so libapriltag.a
 	@chmod +x install.sh
 	@./install.sh $(PREFIX)/lib libapriltag.so.3.1.2
 	@./install.sh $(PREFIX)/lib libapriltag.so.3
