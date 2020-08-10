@@ -1,7 +1,6 @@
 *.a
-*.so
+*.so*
 *.o
 *.swp
 example/opencv_demo
 example/apriltag_demo
-

@@ -17,7 +17,7 @@ all: $(TARGETS)
 .PHONY: install
 install: libapriltag.so
 	@chmod +x install.sh
-	@./install.sh $(PREFIX)/lib libapriltag.so.3.0.0
+	@./install.sh $(PREFIX)/lib libapriltag.so.3.1.2
 	@./install.sh $(PREFIX)/lib libapriltag.so.3
 	@./install.sh $(PREFIX)/lib libapriltag.so
 	@./install.sh $(PREFIX)/lib libapriltag.a
@@ -30,8 +30,8 @@ libapriltag.a: $(APRILTAG_OBJS)
 
 libapriltag.so: $(APRILTAG_OBJS)
 	@echo "   [$@]"
-	@$(CC) -fPIC -shared -lm -lpthread -Wl,-soname,libapriltag.so.3 -o libapriltag.so.3.0.0 $^
-	ln -s libapriltag.so.3.0.0 libapriltag.so.3
+	@$(CC) -fPIC -shared -lm -lpthread -Wl,-soname,libapriltag.so.3 -o libapriltag.so.3.1.2 $^
+	ln -s libapriltag.so.3.1.2 libapriltag.so.3
 	ln -s libapriltag.so.3 libapriltag.so
 
 %.o: %.c
@@ -41,5 +41,5 @@ libapriltag.so: $(APRILTAG_OBJS)
 .PHONY: clean
 clean:
 	@rm -rf *.o common/*.o $(TARGETS)
-	@rm libapriltag.so.3 libapriltag.so.3.0.0
+	@rm libapriltag.so.3 libapriltag.so.3.1.2
 	@$(MAKE) -C example clean
