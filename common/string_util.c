@@ -553,7 +553,11 @@ void string_feeder_require(string_feeder_t *sf, const char *str)
 
     for (int i = 0; i < len; i++) {
         char c = string_feeder_next(sf);
+#ifdef NDEBUG
+        (void)c;
+#else
         assert(c == str[i]);
+#endif
     }
 }
 

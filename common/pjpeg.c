@@ -856,7 +856,11 @@ pjpeg_t *pjpeg_create_from_buffer(uint8_t *buf, int buflen, uint32_t flags, int 
         pjd.in = mjpeg_dht;
         pjd.inlen = sizeof(mjpeg_dht);
         int result = pjpeg_decode_buffer(&pjd);
+#ifdef NDEBUG
+		(void)result;
+#else
         assert(result == 0);
+#endif
     }
 
     pjd.in = buf;

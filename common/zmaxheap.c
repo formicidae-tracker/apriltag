@@ -320,7 +320,8 @@ static void maxheapify(zmaxheap_t *heap, int parent)
 
     if (betterchild != parent) {
         heap->swap(heap, parent, betterchild);
-        return maxheapify(heap, betterchild);
+        maxheapify(heap, betterchild);
+		return;
     }
 }
 
@@ -398,7 +399,11 @@ void zmaxheap_test()
             float outfv;
             int res = zmaxheap_remove_max(heap, &outv, &outfv);
             if (sz == 0) {
+#ifdef NDEBUG
+                (void)res;
+#else
                 assert(res == 0);
+#endif
             } else {
 //                printf("%d %d %d %f\n", sz, maxv, outv, outfv);
                 assert(outv == outfv);
